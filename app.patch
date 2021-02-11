@@ -251,7 +251,7 @@ index 0000000..39429d4
 +}
 diff --git a/lib/widget/word.dart b/lib/widget/word.dart
 new file mode 100644
-index 0000000..8ede31d
+index 0000000..d1a79f2
 --- /dev/null
 +++ b/lib/widget/word.dart
 @@ -0,0 +1,102 @@
@@ -298,7 +298,7 @@ index 0000000..8ede31d
 +            itemBuilder: (context, index) {
 +              final rank = index + 1;
 +              final word = wordList.elementAt(index);
-+              final moment = timeago.format(word.updatedAt, locale: "ja");
++              final moment = timeago.format(word.updatedAt, locale: 'ja');
 +
 +              return ListTile(
 +                title: Row(
