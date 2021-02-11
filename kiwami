@@ -26,7 +26,6 @@ save() {
     git add -A
     git diff --staged > ../app.patch
   )
-  clean
 }
 
 clean() {
