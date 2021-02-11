@@ -8,10 +8,10 @@ index 94adc3a..a673820 100644
  android.enableJetifier=true
 +android.enableR8=true
 diff --git a/lib/main.dart b/lib/main.dart
-index 11655b6..5e1fbd0 100644
+index 11655b6..41698c3 100644
 --- a/lib/main.dart
 +++ b/lib/main.dart
-@@ -1,117 +1,62 @@
+@@ -1,117 +1,63 @@
  import 'package:flutter/material.dart';
  
 -void main() {
@@ -20,6 +20,7 @@ index 11655b6..5e1fbd0 100644
 +import 'menu.dart';
 +import 'widget/hello_world.dart';
 +import 'widget/image_test.dart';
++import 'widget/word.dart';
  
 -class MyApp extends StatelessWidget {
 -  // This widget is the root of your application.
@@ -90,7 +91,7 @@ index 11655b6..5e1fbd0 100644
 +    MenuItem(
 +      icon: Icon(Icons.tag),
 +      title: 'ワード',
-+      widget: HelloWorldWidget(),
++      widget: WordWidget(),
 +    ),
 +    MenuItem(
 +      icon: Icon(Icons.check),
@@ -248,3 +249,155 @@ index 0000000..39429d4
 +    );
 +  }
 +}
+diff --git a/lib/widget/word.dart b/lib/widget/word.dart
+new file mode 100644
+index 0000000..78da74f
+--- /dev/null
++++ b/lib/widget/word.dart
+@@ -0,0 +1,95 @@
++import 'dart:convert';
++
++import 'package:flutter/material.dart';
++import 'package:http/http.dart' as http;
++
++class Word {
++  final String title;
++  final DateTime updatedAt;
++  final double score;
++
++  const Word({this.title, this.updatedAt, this.score});
++}
++
++class WordWidget extends StatelessWidget {
++  final _url = 'https://ultimatetrends.github.io/api/words.json';
++
++  List<Word> _parseJson(List<dynamic> json) {
++    return json.map((entry) {
++      return Word(
++        title: entry['title'],
++        updatedAt: DateTime.parse(entry['updated_at']),
++        score: entry['score'],
++      );
++    }).toList();
++  }
++
++  @override
++  Widget build(BuildContext context) {
++    return FutureBuilder(
++      future: http.get(_url),
++      builder: (context, snapshot) {
++        if (snapshot.hasData) {
++          final json = jsonDecode(snapshot.data.body);
++          final wordList = _parseJson(json);
++
++          return ListView.separated(
++            itemCount: wordList.length,
++            itemBuilder: (context, index) {
++              final rank = index + 1;
++              final word = wordList.elementAt(index);
++
++              return ListTile(
++                title: Row(
++                  children: [
++                    Expanded(
++                      flex: 2,
++                      child: Column(
++                        children: [
++                          Text(
++                            '$rank',
++                            style: TextStyle(
++                              color: Colors.grey,
++                              fontSize: 22,
++                            ),
++                          ),
++                        ],
++                      ),
++                    ),
++                    Expanded(
++                      flex: 8,
++                      child: Column(
++                        children: [
++                          Text(
++                            word.title,
++                            style: TextStyle(
++                              fontWeight: FontWeight.w500,
++                              fontSize: 18,
++                            ),
++                          ),
++                          Text(
++                            '${word.score} スコア',
++                            style: TextStyle(
++                              color: Colors.grey,
++                              fontSize: 13,
++                            ),
++                          ),
++                        ],
++                        crossAxisAlignment: CrossAxisAlignment.start,
++                      ),
++                    ),
++                  ],
++                ),
++              );
++            },
++            separatorBuilder: (context, index) => Divider(),
++          );
++        } else if (snapshot.hasError) {
++          return Text('${snapshot.error}');
++        }
++
++        return CircularProgressIndicator();
++      },
++    );
++  }
++}
+diff --git a/pubspec.lock b/pubspec.lock
+index f628010..d3c2dc7 100644
+--- a/pubspec.lock
++++ b/pubspec.lock
+@@ -67,6 +67,20 @@ packages:
+     description: flutter
+     source: sdk
+     version: "0.0.0"
++  http:
++    dependency: "direct main"
++    description:
++      name: http
++      url: "https://pub.dartlang.org"
++    source: hosted
++    version: "0.12.2"
++  http_parser:
++    dependency: transitive
++    description:
++      name: http_parser
++      url: "https://pub.dartlang.org"
++    source: hosted
++    version: "3.1.4"
+   matcher:
+     dependency: transitive
+     description:
+@@ -88,6 +102,13 @@ packages:
+       url: "https://pub.dartlang.org"
+     source: hosted
+     version: "1.8.0-nullsafety.1"
++  pedantic:
++    dependency: transitive
++    description:
++      name: pedantic
++      url: "https://pub.dartlang.org"
++    source: hosted
++    version: "1.9.2"
+   sky_engine:
+     dependency: transitive
+     description: flutter
+diff --git a/pubspec.yaml b/pubspec.yaml
+index 88498e9..39a46a9 100644
+--- a/pubspec.yaml
++++ b/pubspec.yaml
+@@ -23,6 +23,7 @@ environment:
+ dependencies:
+   flutter:
+     sdk: flutter
++  http: ^0.12.2
+ 
+ 
+   # The following adds the Cupertino Icons font to your application.
