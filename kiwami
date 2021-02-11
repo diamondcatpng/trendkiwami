@@ -1,0 +1,40 @@
+#!/bin/bash
+
+set -ex
+
+load() {
+  if [ -d app ]; then
+    return
+  fi
+  flutter create app
+  cd app
+  git init
+  git add -A
+  git commit -m "app"
+  git apply ../app.patch
+  git add -A
+  git commit -m "patch"
+}
+
+save() {
+  if [ ! -d app ]; then
+    return
+  fi
+  (
+    cd app
+    git reset --soft "$(git log --format="%H" --reverse | head -n 1)"
+    git add -A
+    git diff --staged > ../app.patch
+  )
+  clean
+}
+
+clean() {
+  rm -rf app
+}
+
+case "$1" in
+  "load" ) load ;;
+  "save" ) save ;;
+  "clean" ) clean ;;
+esac
