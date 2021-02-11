@@ -251,7 +251,7 @@ index 0000000..39429d4
 +}
 diff --git a/lib/widget/word.dart b/lib/widget/word.dart
 new file mode 100644
-index 0000000..7907fb8
+index 0000000..39df565
 --- /dev/null
 +++ b/lib/widget/word.dart
 @@ -0,0 +1,171 @@
@@ -295,7 +295,7 @@ index 0000000..7907fb8
 +    SearchEngine(
 +      name: "Twitter",
 +      icon: Icon(BrandIcons.twitter),
-+      pattern: "https://twitter.com/search?q=(@query%20OR%20%23@query)",
++      pattern: "https://twitter.com/search?q=%28@query+OR+%23@query%29",
 +    ),
 +    SearchEngine(
 +      name: "YouTube",
