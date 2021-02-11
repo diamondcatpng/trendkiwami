@@ -251,14 +251,15 @@ index 0000000..39429d4
 +}
 diff --git a/lib/widget/word.dart b/lib/widget/word.dart
 new file mode 100644
-index 0000000..78da74f
+index 0000000..8ede31d
 --- /dev/null
 +++ b/lib/widget/word.dart
-@@ -0,0 +1,95 @@
+@@ -0,0 +1,102 @@
 +import 'dart:convert';
 +
 +import 'package:flutter/material.dart';
 +import 'package:http/http.dart' as http;
++import 'package:timeago/timeago.dart' as timeago;
 +
 +class Word {
 +  final String title;
@@ -283,6 +284,8 @@ index 0000000..78da74f
 +
 +  @override
 +  Widget build(BuildContext context) {
++    timeago.setLocaleMessages('ja', timeago.JaMessages());
++
 +    return FutureBuilder(
 +      future: http.get(_url),
 +      builder: (context, snapshot) {
@@ -295,6 +298,7 @@ index 0000000..78da74f
 +            itemBuilder: (context, index) {
 +              final rank = index + 1;
 +              final word = wordList.elementAt(index);
++              final moment = timeago.format(word.updatedAt, locale: "ja");
 +
 +              return ListTile(
 +                title: Row(
@@ -325,7 +329,7 @@ index 0000000..78da74f
 +                            ),
 +                          ),
 +                          Text(
-+                            '${word.score} スコア',
++                            '${word.score} スコア / $moment',
 +                            style: TextStyle(
 +                              color: Colors.grey,
 +                              fontSize: 13,
@@ -337,9 +341,12 @@ index 0000000..78da74f
 +                    ),
 +                  ],
 +                ),
++                onTap: () {},
 +              );
 +            },
-+            separatorBuilder: (context, index) => Divider(),
++            separatorBuilder: (context, index) => Divider(
++              height: 0,
++            ),
 +          );
 +        } else if (snapshot.hasError) {
 +          return Text('${snapshot.error}');
@@ -351,7 +358,7 @@ index 0000000..78da74f
 +  }
 +}
 diff --git a/pubspec.lock b/pubspec.lock
-index f628010..d3c2dc7 100644
+index f628010..a752c86 100644
 --- a/pubspec.lock
 +++ b/pubspec.lock
 @@ -67,6 +67,20 @@ packages:
@@ -389,15 +396,36 @@ index f628010..d3c2dc7 100644
    sky_engine:
      dependency: transitive
      description: flutter
+@@ -135,6 +156,13 @@ packages:
+       url: "https://pub.dartlang.org"
+     source: hosted
+     version: "0.2.19-nullsafety.2"
++  timeago:
++    dependency: "direct main"
++    description:
++      name: timeago
++      url: "https://pub.dartlang.org"
++    source: hosted
++    version: "2.0.29"
+   typed_data:
+     dependency: transitive
+     description:
+@@ -150,4 +178,4 @@ packages:
+     source: hosted
+     version: "2.1.0-nullsafety.3"
+ sdks:
+-  dart: ">=2.10.0-110 <2.11.0"
++  dart: ">=2.10.0 <2.11.0"
 diff --git a/pubspec.yaml b/pubspec.yaml
-index 88498e9..39a46a9 100644
+index 88498e9..adeac3f 100644
 --- a/pubspec.yaml
 +++ b/pubspec.yaml
-@@ -23,6 +23,7 @@ environment:
+@@ -23,6 +23,8 @@ environment:
  dependencies:
    flutter:
      sdk: flutter
 +  http: ^0.12.2
++  timeago: ^2.0.29
  
  
    # The following adds the Cupertino Icons font to your application.
