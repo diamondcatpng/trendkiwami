@@ -63,6 +63,19 @@ index 0000000..e7b4def
 +++ b/android/settings_aar.gradle
 @@ -0,0 +1 @@
 +include ':app'
+diff --git a/ios/Runner/Info.plist b/ios/Runner/Info.plist
+index c8a8f1d..c9c4ee5 100644
+--- a/ios/Runner/Info.plist
++++ b/ios/Runner/Info.plist
+@@ -11,7 +11,7 @@
+ 	<key>CFBundleInfoDictionaryVersion</key>
+ 	<string>6.0</string>
+ 	<key>CFBundleName</key>
+-	<string>app</string>
++	<string>トレンド極</string>
+ 	<key>CFBundlePackageType</key>
+ 	<string>APPL</string>
+ 	<key>CFBundleShortVersionString</key>
 diff --git a/lib/main.dart b/lib/main.dart
 index 11655b6..41698c3 100644
 --- a/lib/main.dart
