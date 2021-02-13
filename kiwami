@@ -32,8 +32,19 @@ clean() {
   rm -rf app
 }
 
+build() {
+  (
+    cd app
+    flutter build apk
+    flutter build ios --release --no-codesign
+  )
+  mkdir -p build
+  cp app/build/app/outputs/flutter-apk/app-release.apk build/android.apk
+}
+
 case "$1" in
   "load" ) load ;;
   "save" ) save ;;
   "clean" ) clean ;;
+  "build" ) build ;;
 esac
