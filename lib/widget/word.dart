@@ -10,8 +10,9 @@ class Word {
   final String title;
   final DateTime updatedAt;
   final double score;
+  final String chart;
 
-  const Word({this.title, this.updatedAt, this.score});
+  const Word({this.title, this.updatedAt, this.score, this.chart});
 }
 
 class SearchEngine {
@@ -28,12 +29,12 @@ class WordDetailsWidget extends StatelessWidget {
     SearchEngine(
       name: "Google",
       icon: Icon(BrandIcons.google),
-      pattern: "https://www.google.com/search?q=@query",
+      pattern: "https://www.google.com/search?q=@query&tbs=qdr:d",
     ),
     SearchEngine(
       name: "Yahoo! JAPAN",
       icon: Icon(BrandIcons.yahoo),
-      pattern: "https://search.yahoo.co.jp/search?p=@query",
+      pattern: "https://search.yahoo.co.jp/search?p=@query&vd=d",
     ),
     SearchEngine(
       name: "Twitter",
@@ -43,7 +44,8 @@ class WordDetailsWidget extends StatelessWidget {
     SearchEngine(
       name: "YouTube",
       icon: Icon(BrandIcons.youtube),
-      pattern: "https://www.youtube.com/results?search_query=@query",
+      pattern:
+          "https://www.youtube.com/results?search_query=@query&sp=EgQIAhAB",
     ),
   ];
 
@@ -56,24 +58,41 @@ class WordDetailsWidget extends StatelessWidget {
         title: Text(word.title),
         backgroundColor: Colors.green[700],
       ),
-      body: ListView.separated(
-        itemCount: _engineList.length,
-        itemBuilder: (context, index) {
-          final engine = _engineList.elementAt(index);
+      body: Column(
+        children: [
+          Image.network(
+            word.chart,
+            alignment: Alignment.center,
+            loadingBuilder: (context, child, loadingProgress) {
+              if (loadingProgress == null) {
+                return child;
+              }
 
-          return ListTile(
-            leading: engine.icon,
-            title: Text('${engine.name} で検索'),
-            onTap: () async {
-              final query = Uri.encodeQueryComponent(word.title);
-              final url = engine.pattern.replaceAll("@query", query);
-
-              print(url);
-              await launch(url);
+              return CircularProgressIndicator();
             },
-          );
-        },
-        separatorBuilder: (context, index) => Divider(),
+          ),
+          Expanded(
+            child: ListView.separated(
+              itemCount: _engineList.length,
+              itemBuilder: (context, index) {
+                final engine = _engineList.elementAt(index);
+
+                return ListTile(
+                  leading: engine.icon,
+                  title: Text('${engine.name} で検索'),
+                  onTap: () async {
+                    final query = Uri.encodeQueryComponent(word.title);
+                    final url = engine.pattern.replaceAll("@query", query);
+
+                    print(url);
+                    await launch(url);
+                  },
+                );
+              },
+              separatorBuilder: (context, index) => Divider(),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -88,6 +107,7 @@ class WordWidget extends StatelessWidget {
         title: entry['title'],
         updatedAt: DateTime.parse(entry['updated_at']),
         score: entry['score'],
+        chart: entry['chart'],
       );
     }).toList();
   }
