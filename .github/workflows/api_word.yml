@@ -18,7 +18,7 @@ jobs:
         working-directory: ./api
       - run: python word.py
         working-directory: ./api
-      - uses: stefanzweifel/git-auto-commit-action@v4
+      - uses: peaceiris/actions-gh-pages@v3
         with:
-          branch: api
-          file_pattern: ./public
+          publish_branch: api
+          publish_dir: ./public
