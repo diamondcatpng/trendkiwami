@@ -27,6 +27,8 @@ def google():
     trend.title = trend.title.apply(lambda x: x["query"])
     trend["traffic"] = trend.formattedTraffic.apply(parse_traffic)
 
+    print(trend)
+
     return trend
 
 
@@ -39,10 +41,14 @@ def twitter(consumer_key="3nVuSoBZnx6U4vzUxf5w", consumer_secret="Bcs59EFbbsdF6S
 
     japan = region[region.name == "Japan"].reset_index(drop=True)
 
+    print(japan)
+
     trend_data = api.trends_place(japan.woeid.item())[0]["trends"]
     trend = pd.DataFrame(trend_data, columns=["name", "tweet_volume"])
 
     if dropna:
         trend = trend.dropna(subset=["tweet_volume"]).reset_index(drop=True)
+
+    print(trend)
 
     return trend
