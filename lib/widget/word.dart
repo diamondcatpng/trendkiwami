@@ -38,7 +38,7 @@ class WordDetailsWidget extends StatelessWidget {
     SearchEngine(
       name: "Twitter",
       icon: Icon(BrandIcons.twitter),
-      pattern: "https://twitter.com/search?q=%28@query+OR+%23@query%29",
+      pattern: "https://twitter.com/search?q=@query",
     ),
     SearchEngine(
       name: "YouTube",
@@ -65,7 +65,8 @@ class WordDetailsWidget extends StatelessWidget {
             leading: engine.icon,
             title: Text('${engine.name} で検索'),
             onTap: () async {
-              final url = engine.pattern.replaceAll("@query", word.title);
+              final query = Uri.encodeQueryComponent(word.title);
+              final url = engine.pattern.replaceAll("@query", query);
 
               print(url);
               await launch(url);
