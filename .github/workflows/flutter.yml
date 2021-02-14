@@ -11,12 +11,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: subosito/flutter-action@v1
       - uses: actions/setup-java@v1
         with:
           java-version: "12"
+      - uses: subosito/flutter-action@v1
+      - run: flutter precache
       - run: flutter pub get
-      - run: ": flutter test"
+      - run: flutter test
       - run: flutter build apk
   ios:
     name: iOS
@@ -24,16 +25,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: subosito/flutter-action@v1
+      - run: flutter precache
       - run: flutter pub get
-      - run: ": flutter test"
+      - run: flutter test
       - run: flutter build ios --release --no-codesign
-      - run: path=$PWD/app-release.ipa; cd build/ios/iphoneos/Runner.app; zip -r $path .
-      # - uses: softprops/action-gh-release@v1
-      #   with:
-      #     files: |-
-      #       build/app/outputs/flutter-apk/app-release.apk
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - run: out=$PWD/app-release.ipa; cd build/ios/iphoneos/Runner.app; zip -r $out .
   web:
     name: Web
     runs-on: ubuntu-latest
@@ -43,8 +39,9 @@ jobs:
         with:
           channel: beta
       - run: flutter config --enable-web
+      - run: flutter precache
       - run: flutter pub get
-      - run: ": flutter test"
+      - run: flutter test
       - run: flutter build web
       - uses: peaceiris/actions-gh-pages@v3
         with:
