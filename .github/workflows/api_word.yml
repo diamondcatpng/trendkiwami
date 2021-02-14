@@ -1,9 +1,6 @@
 name: API (Word)
 
 on:
-  push:
-    branches:
-      - main
   schedule:
     - cron: "0 * * * *"
 
@@ -18,9 +15,11 @@ jobs:
         with:
           path: ./api/cache
           key: ${{ runner.os }}-api
-      - run: pip install -r requirements.txt
+      - name: Install Dependencies
+        run: pip install -r requirements.txt
         working-directory: ./api
-      - run: python word.py
+      - name: Process Word API
+        run: python word.py
         working-directory: ./api
       - uses: peaceiris/actions-gh-pages@v3
         with:
