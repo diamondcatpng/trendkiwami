@@ -36,6 +36,7 @@ jobs:
           channel: beta
       - run: flutter pub get
       - run: flutter config --enable-web
+      - run: flutter create .
       - run: sed -i 's,\(<base href="\)/\(">\),\1/trendkiwami/\2,g' web/index.html
       - run: flutter build web
       - uses: peaceiris/actions-gh-pages@v3
