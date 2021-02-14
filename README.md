@@ -1,16 +1,12 @@
-# app
+# トレンド極
 
-A new Flutter project.
+インターネットのトレンドをこれ一つで。
 
-## Getting Started
+## ✨ 機能
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+##### 💬 ワード
+- [x] GoogleやTwitterのAPIから急上昇ワードを自動で取得
+- [x] ワードを24時間単位で保存
+- [x] 新しいスコアを計算してランキング化
+- [x] ワードを検索エンジンですばやく見つける
+- [ ] 見やすいグラフでワードがいつ急上昇したかひと目でわかる
