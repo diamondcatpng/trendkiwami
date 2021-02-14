@@ -1,0 +1,24 @@
+name: API (Word)
+
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: "0 * * * *"
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          path: ./api
+      - uses: actions/setup-python@v2
+      - run: pip install -r requirements.txt
+      - run: python word.py
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          branch: api
+          file_pattern: ./public
