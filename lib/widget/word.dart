@@ -79,8 +79,7 @@ class WordDetailsWidget extends StatelessWidget {
 }
 
 class WordWidget extends StatelessWidget {
-  final _url =
-      'https://cdn.jsdelivr.net/gh/trendkiwami/trendkiwami@api/word.json';
+  final _url = 'https://trendkiwami.github.io/api/word.json';
 
   List<Word> _parseJson(List<dynamic> json) {
     return json.map((entry) {
