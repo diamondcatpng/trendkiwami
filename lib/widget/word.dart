@@ -90,6 +90,7 @@ class WordDetailsWidget extends StatelessWidget {
                 );
               },
               separatorBuilder: (context, index) => Divider(),
+              padding: EdgeInsets.symmetric(vertical: 8),
             ),
           ),
         ],
@@ -180,6 +181,7 @@ class WordWidget extends StatelessWidget {
               );
             },
             separatorBuilder: (context, index) => Divider(),
+            padding: EdgeInsets.symmetric(vertical: 8),
           );
         } else if (snapshot.hasError) {
           return Text('${snapshot.error}');
