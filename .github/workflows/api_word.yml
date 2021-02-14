@@ -14,6 +14,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
+      - uses: actions/cache@v2
+        with:
+          path: ./api/cache
+          key: ${{ runner.os }}-api
       - run: pip install -r requirements.txt
         working-directory: ./api
       - run: python word.py
