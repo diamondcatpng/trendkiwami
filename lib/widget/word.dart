@@ -132,45 +132,48 @@ class WordWidget extends StatelessWidget {
               final moment = timeago.format(word.updatedAt, locale: 'ja');
 
               return ListTile(
-                title: Row(
-                  children: [
-                    Expanded(
-                      flex: 2,
-                      child: Column(
-                        children: [
-                          Text(
-                            '$rank',
-                            style: TextStyle(
-                              color: Colors.grey,
-                              fontSize: 22,
+                title: Padding(
+                  padding: EdgeInsets.symmetric(vertical: 8),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: Column(
+                          children: [
+                            Text(
+                              '$rank',
+                              style: TextStyle(
+                                color: Colors.grey,
+                                fontSize: 22,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                    Expanded(
-                      flex: 8,
-                      child: Column(
-                        children: [
-                          Text(
-                            word.title,
-                            style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 18,
+                      Expanded(
+                        flex: 4,
+                        child: Column(
+                          children: [
+                            Text(
+                              word.title,
+                              style: TextStyle(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 18,
+                              ),
                             ),
-                          ),
-                          Text(
-                            '${word.score} スコア / $moment',
-                            style: TextStyle(
-                              color: Colors.grey,
-                              fontSize: 13,
+                            Text(
+                              '${word.score} スコア / $moment',
+                              style: TextStyle(
+                                color: Colors.grey,
+                                fontSize: 13,
+                              ),
                             ),
-                          ),
-                        ],
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                          ],
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
                 onTap: () {
                   final route = MaterialPageRoute(builder: (context) {
@@ -180,8 +183,9 @@ class WordWidget extends StatelessWidget {
                 },
               );
             },
-            separatorBuilder: (context, index) => Divider(),
-            padding: EdgeInsets.symmetric(vertical: 8),
+            separatorBuilder: (context, index) => Divider(
+              height: 0,
+            ),
           );
         } else if (snapshot.hasError) {
           return Text('${snapshot.error}');
